@@ -3,10 +3,126 @@
  */
 package quiz1sistemasg2;
 
+import java.util.Scanner;
+
 public class App {
+    //Funcion para calcular el valor de las horas
+    public static int calcularValorHora( String tipoVehiculo, int horas){
+        try {
+            int valorHora = 0;
+
+            if (horas > 0) {
+                switch (tipoVehiculo) {
+                    case "C":
+                        if (horas > 3) {
+                            valorHora = horas * 5000 + ((horas - 3)*2000);
+                        }else{
+                            valorHora = horas * 5000;
+                        }
+                        break;
+                    case "M":
+                        if (horas > 3) {
+                            valorHora = horas * 3000 + ((horas - 3)*2000);
+                        }else{
+                            valorHora = horas * 3000;
+                        }
+                        break;
+                    case "B": 
+                        if (horas > 3) {
+                            valorHora = horas * 1000 + ((horas - 3)*2000);
+                        }else{
+                            valorHora = horas * 1000;
+                        }
+                        break;
+                
+                    default:
+                        return -1;
+                }
+                
+            }else {
+                return -1;
+            }
+
+            return (int)valorHora;
+            
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    //Funcion para calcular el descuento del usuario
+    public static int calcularDescuento(int valorHora, int tipoUsuario, int horas){
+        try {
+            double descuento = 0;
+            if (tipoUsuario == 1 && horas > 4) {
+
+                descuento = valorHora - (valorHora*0.35);
+                
+            } else if (horas > 4) {
+                descuento = valorHora - (valorHora*0.3);
+            }else {
+                return 0;
+            }
+
+            return (int) descuento;
+            
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    //Funcion para calcular el valor de la factura
+    public static int calcularFactura(double valorHora, double descuento){
+        try {
+            double valorFactura = 0;
+
+            valorFactura = valorHora - descuento + (valorHora*0.19);
+            return (int) valorFactura;
+            
+        } catch (Exception e) {
+            return -1;
+        }
+    }
     
 
     public static void main(String[] args) {
+        try {
+            Scanner sc = new Scanner(System.in);
+            //Datos de entrada
+            String tipoVehiculo = "";
+            int horas = 0, tipoUsuario = 0;
+
+            //Datos de salida
+            int valorHora = 0;
+            int descuento = 0;
+            int valorFactura = 0;
+
+            //Proceso
+            System.out.println("Bienvenido al sistema del parqueadero!!");
+            System.out.println("Ingrese el tipo de vehiculo que estaciono Carro(C) - Moto (M) - Bicicleta (B)");
+            tipoVehiculo = sc.nextLine();
+
+            System.out.println("Usted es estudiante SI(1) - NO (2)");
+            tipoUsuario = sc.nextInt();
+            sc.nextLine();
+
+            System.out.println("Ingrese las horas que estuvo el vehiculo en el parqueadero:");
+            horas = sc.nextInt();
+            sc.nextLine();
+
+            valorHora = calcularValorHora(tipoVehiculo, horas);
+            descuento = calcularDescuento(valorHora, tipoUsuario, horas);
+            valorFactura = calcularFactura(valorHora, descuento);
+
+            System.out.println("Tipo de vehiculo: "+tipoVehiculo);
+            System.out.println("Horas de permanencia: "+horas);
+            System.out.println("Valor sin descuentos: "+valorHora);
+            System.out.println("Valor del descuento: "+descuento);
+            System.out.println("Valor de la factura incluyendo el IVA 19%: "+valorFactura);
+
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
         
        
 
